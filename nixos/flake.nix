@@ -20,9 +20,11 @@
               pynvim
               venvShellHook
 
+              awscli2
+              aws-sam-cli
+
               python-telegram-bot
               requests
-              aws-sam-cli
             ]) ++ [
             ];
             
