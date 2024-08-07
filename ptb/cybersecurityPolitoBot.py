@@ -41,15 +41,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         rf"Hi {user.mention_html()}!",
         reply_markup=ForceReply(selective=True),
     )
-    await update.message.reply_markdown_v2
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /help is issued."""
     help_message_en = (
-        "🇬🇧 Welcome to the `cybersecurity\\-polito` GitHub organization bot\\!\n"
-        "To join the organization, please link your student email \\(sXXXXXX@studenti\\.polito\\.it\\) "
-        "to your existing GitHub account and use the /invite command to send your email in a message\\.\n"
+        "🇬🇧 Welcome to the <code>cybersecurity-polito</code> GitHub organization bot!\n"
+        "To join the organization, please link your student email (sXXXXXX@studenti.polito.it) "
+        "to your existing GitHub account and use the /invite command to send your email in a message.\n"
         "Available commands:\n"
         "/start - Start interacting with the bot\n"
         "/help - Show this help message\n"
@@ -57,16 +56,16 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     )
 
     help_message_it = (
-        "🇮🇹 Benvenuto nel bot dell'organizzazione GitHub `cybersecurity\\-polito`\\!\n"
-        "Per unirti all'organizzazione, collega la tua email studentesca \\(sXXXXXX@studenti\\.polito\\.it\\) "
-        "al tuo account GitHub esistente e utilizza il comando /invite per inviare la tua email in un messaggio\\.\n"
+        "🇮🇹 Benvenuto nel bot dell'organizzazione GitHub <code>cybersecurity-polito</code>!\n"
+        "Per unirti all'organizzazione, collega la tua email studentesca (sXXXXXX@studenti.polito.it) "
+        "al tuo account GitHub esistente e utilizza il comando /invite per inviare la tua email in un messaggio.\n"
         "Comandi disponibili:\n"
         "/start - Inizia a interagire con il bot\n"
         "/help - Mostra questo messaggio di aiuto\n"
         "/invite - Richiedi un invito all'organizzazione tramite la tua email studentesca"
     )
 
-    await update.message.reply_markdown_v2(help_message_en + "\n\n" + help_message_it)
+    await update.message.reply_html(help_message_en + "\n\n" + help_message_it)
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
