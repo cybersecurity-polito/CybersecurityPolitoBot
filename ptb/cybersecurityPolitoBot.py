@@ -64,6 +64,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         "/start - Inizia a interagire con il bot\n"
         "/help - Mostra questo messaggio di aiuto\n"
         "/invite - Richiedi un invito all'organizzazione tramite la tua email studentesca"
+    )
 
     await update.message.reply_markdown_v2(help_message_en + "\n\n" + help_message_it)
 
