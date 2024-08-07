@@ -5,3 +5,4 @@ resolve_s3 = true
 s3_prefix = "CybersecurityPolitoBot-Telegram"
 region = "eu-west-1"
 image_repositories = []
+capabilities = "CAPABILITY_IAM"
