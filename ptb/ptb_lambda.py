@@ -3,14 +3,16 @@ import asyncio
 import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder
+from cybersecurityPolitoBot import setup_handlers
 
 
 def lambda_handler(event, context):
     return asyncio.get_event_loop().run_until_complete(main(event, context))
 
 async def main(event, context):
-    token = os.environ.get("TG_TOKEN")
+    token = os.environ['TG_TOKEN']
     application = ApplicationBuilder().token(token).build()
+    setup_handlers(application)
     
     try:    
         await application.initialize()
