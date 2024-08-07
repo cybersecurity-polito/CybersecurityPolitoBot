@@ -49,16 +49,21 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     help_message_en = (
         "🇬🇧 Welcome to the `cybersecurity\\-polito` GitHub organization bot\\!\n"
         "To join the organization, please link your student email \\(sXXXXXX@studenti\\.polito\\.it\\) "
-        "to your existing GitHub account and send it in the message\\.\n"
-        "If the email is valid, an invitation will be generated\\."
+        "to your existing GitHub account and use the /invite command to send your email in a message\\.\n"
+        "Available commands:\n"
+        "/start - Start interacting with the bot\n"
+        "/help - Show this help message\n"
+        "/invite - Request an invitation to the organization through your student email"
     )
 
     help_message_it = (
-        "🇮🇹 Benvenuto nel bot dell\\'organizzazione GitHub `cybersecurity\\-polito`\\!\n"
-        "Per entrare nell\\'organizzazione, collega la tua email studentesca \\(sXXXXXX@studenti\\.polito\\.it\\) "
-        "al tuo account GitHub esistente e inviala nel messaggio\\.\n"
-        "Se l\\'email è valida, verrà generato un invito\\."
-    )
+        "🇮🇹 Benvenuto nel bot dell'organizzazione GitHub `cybersecurity\\-polito`\\!\n"
+        "Per unirti all'organizzazione, collega la tua email studentesca \\(sXXXXXX@studenti\\.polito\\.it\\) "
+        "al tuo account GitHub esistente e utilizza il comando /invite per inviare la tua email in un messaggio\\.\n"
+        "Comandi disponibili:\n"
+        "/start - Inizia a interagire con il bot\n"
+        "/help - Mostra questo messaggio di aiuto\n"
+        "/invite - Richiedi un invito all'organizzazione tramite la tua email studentesca"
 
     await update.message.reply_markdown_v2(help_message_en + "\n\n" + help_message_it)
 
