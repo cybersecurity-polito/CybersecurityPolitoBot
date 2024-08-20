@@ -19,6 +19,12 @@ import logging
 import re
 import time
 import requests
+import yaml
+import sys
+import time
+import logging
+from watchdog.observers import Observer
+from watchdog.events import LoggingEventHandler
 from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
@@ -114,19 +120,49 @@ async def invite_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 async def error_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Handle the error message."""
     await update.message.reply_text("Invalid command. Please use /help for more information.")
+    
+async def group_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle the group message."""
+    await update.message.reply_text("This is a group message. Please use the bot in private chat.")
+
+async def pin_message_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Pin a message in the chat."""
+    chat_id = update.effective_chat.id
+
+    # Check if the chat ID has a specific message
+    chat_info = chat_specific_messages.get(str(chat_id), {})
+    message_text = chat_info.get('pin_message', "This is a pinned message from the bot.")
+
+    # Get the current pinned message
+    try:
+        current_pinned_message = await context.bot.get_chat(chat_id).pinned_message
+    except Exception as e:
+        await context.bot.send_message(chat_id=chat_id, text="Error getting the current pinned message.")
+        current_pinned_message = None
+
+    if current_pinned_message and current_pinned_message.from_user.id == context.bot.id:
+        # Update the existing pinned message
+        await context.bot.edit_message_text(chat_id=chat_id, message_id=current_pinned_message.message_id, text=message_text)
+    else:
+        # Send a new message and pin it
+        sent_message = await update.message.reply_text(message_text)
+        await context.bot.pin_chat_message(chat_id=chat_id, message_id=sent_message.message_id)
+
 
 def setup_handlers(application):
     """Setup the command and message handlers."""
-    application.add_handler(CommandHandler("start", help_command)) # Using help_command instead of start
-    application.add_handler(CommandHandler("invite", invite_command))
-    application.add_handler(CommandHandler("help", help_command))
-    #application.add_handler(CommandHandler(filters.COMMAND, help_command))
+    application.add_handler(CommandHandler("start", help_command, filters=filters.ChatType.PRIVATE)) # Using help_command instead of start
+    application.add_handler(CommandHandler("invite", invite_command, filters=filters.ChatType.PRIVATE))
+    application.add_handler(CommandHandler("help", help_command, filters=filters.ChatType.PRIVATE))
     
     # on non command i.e message - check the email on Telegram
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, error_command))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND & filters.ChatType.PRIVATE, error_command))
+    
+    # on group messages
+    application.add_handler(CommandHandler("pin", pin_message_command, filters=filters.ChatType.GROUP))
 
 def main() -> None:
-    """Start the bot."""
+    """Start the bot."""s
     # Create the Application and pass it your bot's token.
     token = os.environ.get("TG_TOKEN")
     application = Application.builder().token(token).build()
